@@ -5,10 +5,7 @@
   * Version      : V1.00
   * Device       : R5F1026A
   ******************************************************************************
-  * WATTS Electronics
-  * Main author : Mickael MOREY              V1.00
-  ******************************************************************************
-  * Product :   P06171/00 (WATTS reference), 888A (ARVENI reference)
+  * Product :   888A (ARVENI reference)
   *             ARVENI radio receiver ON/OFF.
   *****************************************************************************/
 

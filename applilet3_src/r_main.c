@@ -9,17 +9,7 @@
                     functions.
   * Creation Date: 09/12/2013
   ******************************************************************************
-  * WATTS Electronics
-  * Main author : Mickael MOREY              V1.00
-  *               Mickael MOREY              V2.00 (05/05/2014)
-  ******************************************************************************
-  * Modifications :
-  *     V2.00
-  *             Pour passer les normes radio, débit à 125kbaud (MDMCFG3),
-  *             déviation à 60kHz (DEVIATN).
-  *             Centrage de la fréquence à 868.3Mhz (FREQ0)
-  ******************************************************************************
-  * Product :   P06115/00 (WATTS reference), 777A (ARVENI reference)
+  * Product :   777A (ARVENI reference)
   *             ARVENI radio transmitter ON/OFF.
   ******************************************************************************
   * Functional description :
@@ -93,47 +83,14 @@
   /*** RF frame content *******************************************************/
   #pragma location=0x3FF0                                                       // 15 end bytes of program flash memory are reserved for the unique identifier of the product.
   __far const uint8_t payload_CC110L[ ] =
-//  { 0x05U, 0x00U, 0x00U, 0x00U, 0x01U, 0x11U };                                 // Unique identifier incrémented in production for each product.
+  { 0x05U, 0x00U, 0x00U, 0x00U, 0x01U, 0x11U };                                 // Unique identifier incrémented in production for each product.
 
-    //{ 0x05U, 0x00U, 0x00U, 0x00U, 0x01U, 0x11U };   
-  //{ 0x05U, 0x00U, 0x00U, 0x00U, 0x02U, 0x18U };  
-//  { 0x05U, 0x00U, 0x00U, 0x00U, 0x05U, 0x0DU };    
-//  { 0x05U, 0x00U, 0x00U, 0x00U, 0x06U, 0x04U }; 
- // { 0x05U, 0x00U, 0x00U, 0x00U, 0x07U, 0x03U }; 
-// { 0x05U, 0x00U, 0x00U, 0x00U, 0x08U, 0x19U };    
- // { 0x05U, 0x00U, 0x00U, 0x00U, 0x09U, 0x1EU };        
- // { 0x05U, 0x00U, 0x00U, 0x00U, 0x0A, 0x17U };
- // { 0x05U, 0x00U, 0x00U, 0x00U, 0x0B, 0x10U };
-//  { 0x05U, 0x00U, 0x00U, 0x00U, 0x0C, 0x05U };
- // { 0x05U, 0x00U, 0x00U, 0x00U, 0x0D, 0x02U };
- //  { 0x05U, 0x00U, 0x00U, 0x00U, 0x0E, 0x0BU };
-   //{ 0x05U, 0x00U, 0x00U, 0x00U, 0x0F, 0x0CU };
- //  { 0x05U, 0x00U, 0x00U, 0x00U, 0x10, 0x08U };
-  // { 0x05U, 0x00U, 0x00U, 0x00U, 0x11, 0x0FU };
- // { 0x05U, 0x00U, 0x00U, 0x00U, 0x12, 0x06U };
-  // { 0x05U, 0x00U, 0x00U, 0x00U, 0x13, 0x01U };
-  //  { 0x05U, 0x00U, 0x00U, 0x00U, 0x14, 0x14U };
-  // { 0x05U, 0x00U, 0x00U, 0x00U, 0x15, 0x13U };
-  // { 0x05U, 0x00U, 0x00U, 0x00U, 0x16, 0x1AU };
-  // { 0x05U, 0x00U, 0x00U, 0x00U, 0x17, 0x1DU };
-   //{ 0x05U, 0x00U, 0x00U, 0x00U, 0x18, 0x07U };
-   //{ 0x05U, 0x00U, 0x00U, 0x04U, 0xD2, 0x06U };
-  // { 0x05U, 0x00U, 0x00U, 0x04U, 0xD3, 0x01U };
- //  { 0x05U, 0x00U, 0x00U, 0x04U, 0xD4, 0x14U };
-  // { 0x05U, 0x00U, 0x00U, 0x04U, 0xD5, 0x13U };
-   { 0x05U, 0x00U, 0xFFU, 0xFFU, 0xFFU, 0x07U };   // id special!!!
   
   /*** Code start *************************************************************/
   void main(void)
   {
       DI();                                                                     // Disable interupts.
       /*** Clock Generator Configuration (CHAPTER 5, p114) ***/
-  //Rv    CMC = 0x00;                                                           // p118
-  //Rv    CKC = 0x00;                                                           // High-speed on-chip oscillator clock (fIH) as the main system clock (fMAIN). p119
-  //Rv    CSC = 0xC0;                                                           // X1 oscillator stopped, High-speed on-chip oscillator operating. p120
-
-  //Rv    OSMC = 0x00;                                                          // Stops Clock supply for 12-bit interval timer. p126
-  //Rv    HOCODIV                                                               // Value set by FRQSEL2 to FRQSEL0 of the option byte (000C2H). p127
 
       /*** Port Configuration (CHAPTER 4, p83) ***/
         // Analog/Digital
@@ -141,19 +98,10 @@
       PMC4 = 0xF9;
         // Input/Output
       PM1 = 0xEA;                                                               // SCK and SDO and /CS as output, SDI and GDO0 as input. p90
-  //Rv    PM2 = 0xFF;                                                           // Valim -> input. p90
       PM4 = 0xF9;                                                               // P40 as input with PU activated to reduce consumption, Shunt_Vcr output. p90
       PM6 = 0xFC;                                                               // P60, P61 as output, resduce consumption when pin not used and havn't analog input. p90
-  //Rv    PM20 = 1;                                                             // ANI0 input mode. p90
         // Level output
       P1 = 0x15;                                                                // SCK, SDO and /CS output high. p92
-  //Rv    P2 = 0x00;
-  //Rv    P4 = 0x00;
-  //Rv    P6 = 0x00;
-  //Rv    P12 = 0x00;
-  //Rv    P13 = 0x00;
-        // Pull-up
-  //Rv    PU4 = 0x01                                                            // PU activated on P40 to reduce consumption.  
 
       /*** ADC Registers configuration (CHAPTER 10, p265) ***/
       ADCEN = 1;                                                                // Enables clock supply, ADC registers can be read/write. Register PER0 p270
@@ -162,16 +110,14 @@
       ADM0 = 0x3D;                                                              // Select mode; fAD = fCLK/2; Low voltage 1 (1.8V < Vdd < 5.5V, sampling 7 fAD); Enable ADC SAR voltage comparator. p271
       ADM1 = 0x20;                                                              // Software trigger; One-shot conversion. p280
       ADM2 = 0x01;                                                              // Vref+ = Vdd; Vref- = Vss; interrupt when result(ADCR) is between ADLL and ADUL; SNOOZE mode not used; 8bit resolution. p281-282
-  //Rv    ADUL = 0xFF;                                                          // Upper limit set to maximum. p287
-  //Rv    ADLL = 0x00;                                                          // Lower limit set to minimum. p287
+
       ADIF = 0;                                                                 // Clear Interrupt Flag. Register IF1H p589
 
       /*** SPI Configuration (CHAPTER 11, p319) ***/
       SAU0EN = 1;                                                               // Enables clock supply, Serial array registers can be read/write. Register PER0 p330
       ST0L_bit.no0 = 1;                                                         // Stops the communication operation. Register ST0 p342
       SIR00 = 0x0007;                                                           // Clear error flags. p338
-  //Rv    SPS0 = 0x0000;                                                        // SPI clock = maximum frequency according to p320 : Maximum transfer rate During master communication : Max. fCLK/2 (CSI00 only). p331
-  //Rv    SMR00 = 0x0020;                                                       // p333
+
       SCR00 = 0xC007;                                                           // Transmission/reception, SPI mode 1, MSB first, 8-bit data length. p335
       SDR00 = 0x0000;                                                           // fMCK = fCLK/2. p336
       SO0 = 0x0101;                                                             // Serial clock output value is "1", Serial data output value is "1". p345    
